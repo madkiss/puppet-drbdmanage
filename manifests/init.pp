@@ -47,7 +47,7 @@ class drbdmanage(
     ensure => present,
   }
 
-  package {'drbdmanage':
+  package {'python-drbdmanage':
     ensure => present,
   }
 
