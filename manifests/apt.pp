@@ -6,7 +6,7 @@ define drbdmanage::apt (
   }
 
   apt::source { 'drbd9':
-    location => "http://ppa.launchpad.net/martin-loschwitz/drbd9-ppa/",
+    location => "http://ppa.launchpad.net/martin-loschwitz/drbd9-ppa/ubuntu",
     release => $::lsbdistcodename,
     require => Apt::Key['drbd9'],
     before => [ Package['drbdmanage'],
