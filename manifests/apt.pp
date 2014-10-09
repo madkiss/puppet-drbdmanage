@@ -1,7 +1,7 @@
 define drbdmanage::apt (
 ) {
   apt::key { 'drbd9':
-    key => '781F830A',
+    key => '781F830A6697E8C5',
     key_server => 'keyserver.ubuntu.com',
   }
 
