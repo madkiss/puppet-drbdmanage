@@ -10,7 +10,7 @@ define drbdmanage::apt (
     release => $::lsbdistcodename,
     require => Apt::Key['drbd9'],
     before => [ Package['drbdmanage'],
-                Package['drbd9-km'],
+                Package['drbd-dkms'],
 		Package['drbd-utils']
 	        ]
   }
