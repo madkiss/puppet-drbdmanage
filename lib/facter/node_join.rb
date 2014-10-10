@@ -1,4 +1,4 @@
-﻿# node_join.rb
+# node_join.rb
 nodes = []
 output = Puppet::Util::Execution.execute("drbdmanage nodes -m")
 
