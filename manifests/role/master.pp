@@ -43,5 +43,5 @@ class drbdmanage::role::master(
     unless  => "`vgdisplay -s $vg_name`",
   }
 
-  drbdadmin::addtocluster { $cluster_nodes: }
+  drbdmanage::addtocluster { $cluster_nodes: }
 }

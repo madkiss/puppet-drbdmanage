@@ -17,5 +17,5 @@
 class drbdmanage::role::cluster_node(
 ) inherits drbdmanage::params {
 
-  drbdadmin::joincluster { $hostname: }
+  drbdmanage::joincluster { $hostname: }
 }
