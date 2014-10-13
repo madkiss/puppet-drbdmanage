@@ -24,6 +24,8 @@ define drbdmanage::addtocluster(
   $node_name = $node_array[0]
   $node_ip = $node_array[1]
 
+  $command = "${node_name}_join -q"
+
   exec { "add_$node_name":
     path    => "/sbin:/bin:/usr/sbin:/usr/bin",
     command => "drbdmanage new-node $node_name $node_ip",
@@ -31,7 +33,7 @@ define drbdmanage::addtocluster(
 
   @@exec { "join_$node_name":
     path    => "/sbin:/bin:/usr/sbin:/usr/bin",
-    command => "${node_name}_join",
+    command => "$command",
     tag     => "$node_name",
   }
 }
