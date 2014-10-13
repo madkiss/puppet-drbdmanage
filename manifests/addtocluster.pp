@@ -31,7 +31,7 @@ define drbdmanage::addtocluster(
 
   @@exec { "join_$node_name":
     path    => "/sbin:/bin:/usr/sbin:/usr/bin",
-    command => "$::node_name_join",
+    command => "${node_name}_join",
     tag     => "$node_name",
   }
 }
