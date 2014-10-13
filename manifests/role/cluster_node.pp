@@ -14,7 +14,7 @@
 #
 #   Author: Martin Loschwitz <m.loschwitz@syseleven.de>
 
-class drbdmanage::cluster_node(
+class drbdmanage::role::cluster_node(
 ) inherits drbdmanage::params {
 
   drbdadmin::joincluster { $hostname: }

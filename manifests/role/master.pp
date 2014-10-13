@@ -29,7 +29,7 @@
 # [*cluster_nodes*]
 #   (required) An array of hosts to be part of this drbdmanage cluster
 
-class drbdmanage::master(
+class drbdmanage::role::master(
   $physical_volume = $drbdmanage::params::physical_volume,
   $master_ip = $drbdmanage::params::node_ip,
   $vg_name = $drbdmanage::params::poolname,
