@@ -25,12 +25,22 @@
 # [*install_repositories*]
 #   (optional) Whether to add DRBD 9 repositories to the system
 #   Default: yes
+#
+# [*physical_volume*]
+#   (required) The physical volume that drbdmanage is supposed to use
+#
+# [*vg_name*]
+#   (required) The volume group name to be used for the DRBD VG
 
 class drbdmanage(
   $master_node = $drbdmanage::params::master_node,
-  $nodes = $drbdmanage::params::nodes,
+  $cluster_nodes = $drbdmanage::params::cluster_nodes,
   $install_repositories = $drbdmanage::params::install_repositories,
+  $physical_volume = $drbdmanage::params::physical_volume,
+  $vg_name = $drbdmanage::params::vg_name,
 ) inherits drbdmanage::params {
+
+  include lvm
 
 ## Install DRBD9 and dependencies
 
@@ -53,6 +63,15 @@ class drbdmanage(
 
   package {'drbd-dkms':
     ensure => present,
+  }
+
+  physical_volume { $physical_volume:
+    ensure => present,
+  }
+
+  volume_group { $vg_name:
+    ensure           => present,
+    physical_volumes => $physical_volume,
   }
 
 }

@@ -19,7 +19,7 @@
 # [*physical_volume*]
 #   (required) The physical volume that drbdmanage is supposed to use
 #
-# [*node_ip*]
+# [*master_ip*]
 #   (required) The IP this node will use when talking to other nodes
 #
 # [*poolname*]
@@ -55,4 +55,5 @@ class drbdmanage::master(
     unless  => "`vgdisplay -s $vg_name`",
   }
 
+  drbdadmin::addtocluster { $cluster_nodes: }
 }
