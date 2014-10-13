@@ -32,7 +32,7 @@ class drbdmanage::params {
   $master_ip = getvar("::${variable_prefix}master_ip")
 
   # The control node that needs to be installed first
-  $nodes = getvar("::${variable_prefix}nodes")
+  $cluster_nodes = getvar("::${variable_prefix}cluster_nodes")
 
   # Whether to add the repositories to the system or not
   $install_repositories = pick(getvar("::${variable_prefix}install_repositories"),
