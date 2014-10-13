@@ -26,7 +26,7 @@ define drbdmanage::addtocluster(
 
   exec { "add_$node_name":
     path    => "/sbin:/bin:/usr/sbin:/usr/bin",
-    command => "drbdadm new-node $node_name $node_ip",
+    command => "drbdmanage new-node $node_name $node_ip",
   }
 
   @@exec { "join_$node_name":
