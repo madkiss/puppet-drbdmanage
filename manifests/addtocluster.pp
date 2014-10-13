@@ -24,12 +24,12 @@ define drbdmanage::addtocluster(
   $node_name = $node_array[0]
   $node_ip = $node_array[1]
 
-  exec { $node_name_add:
+  exec { "add_$node_name":
     path    => "/sbin:/bin:/usr/sbin:/usr/bin",
     command => "drbdadm new-node $node_name $node_ip",
   }
 
-  @@exec { $node_name_join:
+  @@exec { "join_$node_name":
     path    => "/sbin:/bin:/usr/sbin:/usr/bin",
     command => "$::$node_name_join",
     tag     => "$node_name",
