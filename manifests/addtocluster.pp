@@ -20,7 +20,9 @@ define drbdmanage::addtocluster(
 
   include drbdmanage
 
-  $node_array = split($name, ':')
+  $myname = $name
+
+  $node_array = split($myname, ':')
   $node_name = $node_array[0]
   $node_ip = $node_array[1]
 
