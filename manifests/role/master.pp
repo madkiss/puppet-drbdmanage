@@ -40,7 +40,7 @@ class drbdmanage::role::master(
   exec { "drbd-init":
     path    => "/sbin:/usr/bin:/usr/sbin:/bin",
     command => "drbdmanage init --quiet $master_ip",
-    unless  => "`vgdisplay -s $vg_name`",
+    unless  => "drbdmanage nodes -m | grep $::hostname",
   }
 
   drbdmanage::addtocluster { $cluster_nodes: }
