@@ -31,9 +31,6 @@ class drbdmanage::params {
   # The IP of the master node
   $master_ip = getvar("::${variable_prefix}master_ip")
 
-  # The control node that needs to be installed first
-  $cluster_nodes = getvar("::${variable_prefix}cluster_nodes")
-
   # Whether to add the repositories to the system or not
   $install_repositories = pick(getvar("::${variable_prefix}install_repositories"),
                            'true')
@@ -46,5 +43,5 @@ class drbdmanage::params {
                            'drbdpool')
 
   # An array containing a list of all nodes that are part of the cluster
-  $cluster_nodes = ['compute', 'controller']
+  $cluster_nodes = getvar("::${variable_prefix}cluster_nodes")
 }
