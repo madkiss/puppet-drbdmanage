@@ -19,22 +19,23 @@
 
 require 'puppet'
 
-nodes = []
-output = Puppet::Util::Execution.execute("drbdmanage nodes -m")
+if File.exists?("/usr/bin/drbdmanage")
+  nodes = []
+  output = Puppet::Util::Execution.execute("drbdmanage nodes -m")
 
-String(output).each_line do |s|
-    nodes << s[/(.*?),/,1]
-end
-
-nodes.each do |node|
-
-  output = Puppet::Util::Execution.execute("drbdmanage howto-join #{node} 2>/dev/null")
-  fact_name = "#{node}_join"
-
-  Facter.add("#{fact_name}") do
-    setcode do
-      output.chop
-    end
+  String(output).each_line do |s|
+      nodes << s[/(.*?),/,1]
   end
 
+  nodes.each do |node|
+
+    output = Puppet::Util::Execution.execute("drbdmanage howto-join #{node} 2>/dev/null")
+    fact_name = "#{node}_join"
+
+    Facter.add("#{fact_name}") do
+      setcode do
+        output.chop
+      end
+    end
+  end
 end
