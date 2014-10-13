@@ -32,20 +32,8 @@
 class drbdmanage::role::master(
   $physical_volume = $drbdmanage::params::physical_volume,
   $master_ip = $drbdmanage::params::node_ip,
-  $vg_name = $drbdmanage::params::poolname,
   $cluster_nodes = $drbdmanage::params::cluster_nodes,
 ) inherits drbdmanage::params {
-
-  include lvm
-
-  physical_volume { $physical_volume:
-    ensure => present,
-  }
-
-  volume_group { $poolname:
-    ensure           => present,
-    physical_volumes => $physical_volume,
-  }
 
 ## Create the drbdmanaged master instance
 
