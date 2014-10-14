@@ -13,9 +13,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#   Author: Martin Loschwitz <m.loschwitz@syseleven.de>
-
-# node_join.rb
+#   Authors: Martin Loschwitz <m.loschwitz@syseleven.de>
+#            Martin Zdrahal <martin.zdrahal@s-team.at>
 
 require 'puppet'
 
@@ -29,12 +28,9 @@ if File.exists?("/usr/bin/drbdmanage")
 
   nodes.each do |node|
 
-    output = Puppet::Util::Execution.execute("drbdmanage howto-join #{node} 2>/dev/null")
-    fact_name = "#{node}_join"
-
-    Facter.add("#{fact_name}") do
+    Facter.add("#{node}_join") do
       setcode do
-        output.chop
+        Puppet::Util::Execution.execute("drbdmanage howto-join #{node} 2>/dev/null").chop
       end
     end
   end
