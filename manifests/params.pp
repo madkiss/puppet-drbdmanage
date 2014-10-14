@@ -25,23 +25,28 @@ class drbdmanage::params {
     $variable_prefix = ''
   }
 
+  # An array containing a list of all nodes that are part of the cluster
+  $cluster_nodes = hiera('drbdmanage::params::cluster_nodes',
+                            getvar("::${variable_prefix}cluster_nodes"))
+
   # The control node that needs to be installed first
-  $master_node = getvar("::${variable_prefix}master_node")
+  $master_node = hiera('drbdmanage::params::master_node',
+                            getvar("::${variable_prefix}master_node"))
 
   # The IP of the master node
-  $master_ip = getvar("::${variable_prefix}master_ip")
+  $master_ip = hiera('drbdmanage::params::master_ip',
+                            getvar("::${variable_prefix}master_ip"))
 
   # Whether to add the repositories to the system or not
-  $install_repositories = pick(getvar("::${variable_prefix}install_repositories"),
-                           'true')
+  $install_repositories = hiera('drbdmanage::params::install_repositories',
+                            getvar("::${variable_prefix}install_repositories"))
 
   # The name of the physical volume to be used by drbdmanage
-  $physical_volume = getvar("::${variable_prefix}physical_volume")
+  $physical_volume = hiera('drbdmanage::params::physical_volume',
+                            getvar("::${variable_prefix}physical_volume"))
 
   # The name of the VG to be used by DRBD
-  $vg_name = pick(getvar("::${variable_prefix}vg_name"),
-                           'drbdpool')
+  $vg_name = hiera('drbdmanage::params::vg_name',
+                            getvar("::${variable_prefix}vg_name"))
 
-  # An array containing a list of all nodes that are part of the cluster
-  $cluster_nodes = getvar("::${variable_prefix}cluster_nodes")
 }
