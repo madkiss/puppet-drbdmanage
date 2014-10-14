@@ -18,23 +18,26 @@
 define drbdmanage::addtocluster(
 ) {
 
-  include drbdmanage
+  $nodes = $name
 
-  $node_array = split($name, ':')
+  $node_array = split($nodes, ':')
   $node_name = $node_array[0]
   $node_ip = $node_array[1]
+  $fact_name = getvar("${node_name}_join")
 
-  if "${node_name}_join" {
-    $command = "${node_name}_join -q"
+  exec { "add_$node_name":
+    path    => "/sbin:/bin:/usr/sbin:/usr/bin",
+    command => "drbdmanage new-node $node_name $node_ip",
+    unless  => "drbdmanage nodes -m | grep $node_name",
+    require => [ Package['python-drbdmanage'], Package['drbd-dkms'], Package['drbd-utils'], Exec['drbd-init'], ],
+  }
 
-    exec { "add_$node_name":
-      path    => "/sbin:/bin:/usr/sbin:/usr/bin",
-      command => "drbdmanage new-node $node_name $node_ip",
-    }
-
+  if $fact_name {
     @@exec { "join_$node_name":
       path    => "/sbin:/bin:/usr/sbin:/usr/bin",
-      command => "$command",
+      command => "$fact_name -q",
+      unless  => "drbdmanage nodes -m | grep $node_name",
+      require => [ Package['python-drbdmanage'], Package['drbd-dkms'], Package['drbd-utils'], ],
       tag     => "$node_name",
     }
   }
