@@ -31,7 +31,7 @@
 
 class drbdmanage::role::master(
   $physical_volume = $drbdmanage::params::physical_volume,
-  $master_ip = $drbdmanage::params::node_ip,
+  $master_ip = $drbdmanage::params::master_ip,
   $cluster_nodes = $drbdmanage::params::cluster_nodes,
 ) inherits drbdmanage::params {
 
@@ -41,7 +41,7 @@ class drbdmanage::role::master(
     path    => "/sbin:/usr/bin:/usr/sbin:/bin",
     command => "drbdmanage init --quiet $master_ip",
     unless  => "drbdmanage nodes -m | grep $::hostname",
-    require => Package['python-drbdmanage'],
+    require => [ Package['python-drbdmanage'], Package['drbd-dkms'], Package['drbd-utils'], ]
   }
 
   drbdmanage::addtocluster { $cluster_nodes: }
