@@ -18,9 +18,8 @@ define drbdmanage::yum {
   yumrepo { 'drbd9':
     location => 'tbd',
     before   => Package[
-      'python-drbdmanage',
-      'drbd-dkms',
-      'drbd-utils'
+      'kmod-drbd',
+      'drbd',
     ],
   }
 }

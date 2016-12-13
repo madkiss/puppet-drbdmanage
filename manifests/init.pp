@@ -50,7 +50,6 @@ class drbdmanage(
       if $install_repositories == 'true' {
         drbdmanage::apt {'drbd9': }
       }
-      $check_cmd = '/usr/bin/dpkg -l | grep drbd9-dkms'
       package { [
         'drbd-utils',
         'python-drbdmanage',
@@ -61,6 +60,11 @@ class drbdmanage(
     'RedHat': {
       if $install_repositories == 'true' {
         drbdmanage::yum {'drbd9': }
+      }
+      package { [
+        'drbd',
+        'kmod-drbd',]:
+      ensure => present,
       }
     }
   }
