@@ -41,6 +41,7 @@ class drbdmanage(
 ) inherits drbdmanage::params {
 
   include lvm
+  include drbdmanage::role::master
 
 ## Install DRBD9 and dependencies
 
@@ -50,19 +51,18 @@ class drbdmanage(
         drbdmanage::apt {'drbd9': }
       }
       $check_cmd = '/usr/bin/dpkg -l | grep drbd9-dkms'
+      package { [
+        'drbd-utils',
+        'python-drbdmanage',
+        'drbd-dkms',]:
+      ensure => present,
+      }
     }
-  }
-
-  package {'drbd-utils':
-    ensure => present,
-  }
-
-  package {'python-drbdmanage':
-    ensure => present,
-  }
-
-  package {'drbd-dkms':
-    ensure => present,
+    'RedHat': {
+      if $install_repositories == 'true' {
+        drbdmanage::yum {'drbd9': }
+      }
+    }
   }
 
   physical_volume { $physical_volume:

@@ -16,29 +16,29 @@
 #   Author: Martin Loschwitz <m.loschwitz@syseleven.de>
 
 define drbdmanage::addtocluster(
-) {
+  $master_node = $drbdmanage::params::master_node,
+) inherits drbdmanage::params {
+  if $name != $master_node {
+    $nodes = $name
 
-  $nodes = $name
+    $node_array = split($nodes, ':')
+    $node_name = $node_array[0]
+    $node_ip = $node_array[1]
+    $fact_name = getvar("${node_name}_join")
 
-  $node_array = split($nodes, ':')
-  $node_name = $node_array[0]
-  $node_ip = $node_array[1]
-  $fact_name = getvar("${node_name}_join")
-
-  exec { "add_$node_name":
-    path    => "/sbin:/bin:/usr/sbin:/usr/bin",
-    command => "drbdmanage new-node $node_name $node_ip",
-    unless  => "drbdmanage nodes -m | grep $node_name",
-    require => [ Package['python-drbdmanage'], Package['drbd-dkms'], Package['drbd-utils'], Exec['drbd-init'], ],
-  }
-
-  if $fact_name {
-    @@exec { "join_$node_name":
+    exec { "add_$node_name":
       path    => "/sbin:/bin:/usr/sbin:/usr/bin",
-      command => "$fact_name -q",
+      command => "drbdmanage new-node $node_name $node_ip",
       unless  => "drbdmanage nodes -m | grep $node_name",
-      require => [ Package['python-drbdmanage'], Package['drbd-dkms'], Package['drbd-utils'], ],
-      tag     => "$node_name",
+    }
+
+    if $fact_name {
+      @@exec { "join_$node_name":
+        path    => "/sbin:/bin:/usr/sbin:/usr/bin",
+        command => "$fact_name -q",
+        unless  => "drbdmanage nodes -m | grep $node_name",
+        tag     => "$node_name",
+      }
     }
   }
 }

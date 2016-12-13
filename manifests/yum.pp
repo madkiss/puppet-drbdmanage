@@ -12,11 +12,15 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#   Author: Martin Loschwitz <m.loschwitz@syseleven.de>
+#   Author: Sophia Katzy <sophia.katzy@gmail.com>
 
-class drbdmanage::role::cluster_node(
-) inherits drbdmanage::params {
-
-  drbdmanage::joincluster { $hostname: }
-
+define drbdmanage::yum {
+  yumrepo { 'drbd9':
+    location => 'tbd',
+    before   => Package[
+      'python-drbdmanage',
+      'drbd-dkms',
+      'drbd-utils'
+    ],
+  }
 }
