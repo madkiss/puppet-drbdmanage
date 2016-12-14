@@ -14,7 +14,9 @@
 #
 #   Author: Sophia Katzy <sophia.katzy@gmail.com>
 
-define drbdmanage::yum {
+define drbdmanage::yum (
+  $baseurl,
+){
   yumrepo { 'drbd9':
     name     => 'LINBIT Packages for drbd-9.0 - $basearch',
     baseurl  => absent,
