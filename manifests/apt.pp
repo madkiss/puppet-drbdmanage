@@ -25,9 +25,5 @@ define drbdmanage::apt (
     location => "http://ppa.launchpad.net/martin-loschwitz/drbd9-ppa/ubuntu",
     release => $::lsbdistcodename,
     require => Apt::Key['drbd9'],
-    before => [ Package['python-drbdmanage'],
-                Package['drbd-dkms'],
-		Package['drbd-utils']
-	        ]
   }
 }

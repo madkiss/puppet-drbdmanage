@@ -23,6 +23,5 @@ define drbdmanage::yum (
     enabled  => 1,
     gpgkey   => 'https://packages.linbit.com/package-signing-pubkey.asc',
     gpgcheck => 1,
-    require  => Package[ ['kmod-drbd'], ['drbd'] ];
   }
 }

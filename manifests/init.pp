@@ -56,6 +56,7 @@ class drbdmanage(
           'python-drbdmanage',
           'drbd-dkms',]:
         ensure => present,
+        require => Drbdmanage::Apt['drbd9'],
         }
       }
       'RedHat': {
@@ -66,6 +67,7 @@ class drbdmanage(
           'drbd',
           'kmod-drbd',]:
         ensure => present,
+        require => Drbdmanage::Yum['drbd9'],
         }
       }
     }
