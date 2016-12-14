@@ -15,21 +15,23 @@
 #
 #   Author: Martin Loschwitz <m.loschwitz@syseleven.de>
 
-define drbdmanage::resource {
+define drbdmanage::resource (
+  $size,
+){
   $resources = $name
 
-  $ressource_array = split($resources, ':')
-  $ressource_name = $ressource_array[0]
-  $fact_name = getvar("${ressource_name}_join")
+  $resource_array = split($resources, ':')
+  $resource_name = $resource_array[0]
+  #  $fact_name = getvar("${ressource_name}_join")
 
-    exec { "add_$ressource_name":
+  exec { "add_resource_$resource_name":
     path    => "/sbin:/bin:/usr/sbin:/usr/bin",
-    command => "drbdmanage new-node $ressource_name $node_ip",
-    unless  => "drbdmanage resources -m | grep $ressource_name",
+    command => "drbdmanage add_volume $resource_name $size --deploy 2",
+    #    unless  => "drbdmanage resources -m | grep $resource_name",
   }
 
   if $fact_name {
-    @@exec { "join_$ressource_name":
+    @@exec { "join_$resource_name":
       path    => "/sbin:/bin:/usr/sbin:/usr/bin",
       command => "$fact_name -q",
       unless  => "drbdmanage resources -m | grep $ressource_name",

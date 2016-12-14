@@ -44,4 +44,5 @@ class drbdmanage::role::master(
   }
 
   drbdmanage::addtocluster { $cluster_nodes: }
+  create_resources ('drbdmanage::resource', hiera_hash('drbdmanage::params::resources'))
 }
