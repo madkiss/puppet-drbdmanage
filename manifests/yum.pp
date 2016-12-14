@@ -18,12 +18,9 @@ define drbdmanage::yum {
   yumrepo { 'drbd9':
     name     => 'LINBIT Packages for drbd-9.0 - $basearch',
     baseurl  => undef,
-    enabled  => 1
+    enabled  => 1,
     gpgkey   => 'https://packages.linbit.com/package-signing-pubkey.asc',
-    gpgcheck => 1
-    before   => Package[
-      'kmod-drbd',
-      'drbd',
-    ],
+    gpgcheck => 1,
+    require  => Package[ ['kmod-drbd'], ['drbd'] ];
   }
 }
