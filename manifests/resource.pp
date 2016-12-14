@@ -15,26 +15,25 @@
 #
 #   Author: Martin Loschwitz <m.loschwitz@syseleven.de>
 
-define drbdmanage::addtocluster {
-  $nodes = $name
+define drbdmanage::resource {
+  $resources = $name
 
-  $node_array = split($nodes, ':')
-  $node_name = $node_array[0]
-  $node_ip = $node_array[1]
-  $fact_name = getvar("${node_name}_join")
+  $ressource_array = split($resources, ':')
+  $ressource_name = $ressource_array[0]
+  $fact_name = getvar("${ressource_name}_join")
 
-    exec { "add_$node_name":
+    exec { "add_$ressource_name":
     path    => "/sbin:/bin:/usr/sbin:/usr/bin",
-    command => "drbdmanage new-node $node_name $node_ip",
-    unless  => "drbdmanage nodes -m | grep $node_name",
+    command => "drbdmanage new-node $ressource_name $node_ip",
+    unless  => "drbdmanage resources -m | grep $ressource_name",
   }
 
   if $fact_name {
-    @@exec { "join_$node_name":
+    @@exec { "join_$ressource_name":
       path    => "/sbin:/bin:/usr/sbin:/usr/bin",
       command => "$fact_name -q",
-      unless  => "drbdmanage nodes -m | grep $node_name",
-      tag     => "$node_name",
+      unless  => "drbdmanage resources -m | grep $ressource_name",
+      tag     => "$ressource_name",
     }
   }
 }

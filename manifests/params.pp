@@ -49,4 +49,8 @@ class drbdmanage::params {
   $vg_name = hiera('drbdmanage::params::vg_name',
                             getvar("::${variable_prefix}vg_name"))
 
+  # The url of the DRBD repo
+  $vg_name = hiera('drbdmanage::params::yumrepo_url',
+                            getvar("::${variable_prefix}yumrepo_url"))
+
 }
