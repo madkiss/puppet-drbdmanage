@@ -36,7 +36,7 @@ class drbdmanage::role::master(
 ) inherits drbdmanage::params {
 
 ## Create the drbdmanaged master instance
-  require drdbmanage
+  require drbdmanage
 
   exec { "drbd-init":
     path    => "/sbin:/usr/bin:/usr/sbin:/bin",
