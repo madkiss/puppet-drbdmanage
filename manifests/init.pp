@@ -46,25 +46,20 @@ class drbdmanage(
     include drbdmanage::role::master
   }
 
-## Install DRBD9 and dependencies
-
+  if $install_repositories {
+  ## Install DRBD9 and dependencies
   case $::osfamily {
     'Debian': {
-      if $install_repositories == 'yes' {
-        drbdmanage::apt {'drbd9': }
-      }
+      drbdmanage::apt {'drbd9': }
       package { [
         'drbd-utils',
         'python-drbdmanage',
         'drbd-dkms',]:
       ensure => present,
-      }
     }
     'RedHat': {
-      if $install_repositories == 'yes' {
-        drbdmanage::yum {'drbd9':
-          baseurl => $yumrepo_url,
-        }
+      drbdmanage::yum {'drbd9':
+        baseurl => $yumrepo_url,
       }
       package { [
         'drbd',
