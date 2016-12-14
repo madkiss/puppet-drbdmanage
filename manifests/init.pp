@@ -50,7 +50,7 @@ class drbdmanage(
 
   case $::osfamily {
     'Debian': {
-      if $install_repositories == 'true' {
+      if $install_repositories == 'yes' {
         drbdmanage::apt {'drbd9': }
       }
       package { [
@@ -61,7 +61,7 @@ class drbdmanage(
       }
     }
     'RedHat': {
-      if $install_repositories == 'true' {
+      if $install_repositories == 'yes' {
         drbdmanage::yum {'drbd9':
           baseurl => $yumrepo_url,
         }
