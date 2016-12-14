@@ -48,27 +48,28 @@ class drbdmanage(
 
   if $install_repositories {
   ## Install DRBD9 and dependencies
-  case $::osfamily {
-    'Debian': {
-      drbdmanage::apt {'drbd9': }
-      package { [
-        'drbd-utils',
-        'python-drbdmanage',
-        'drbd-dkms',]:
-      ensure => present,
-    }
-    'RedHat': {
-      drbdmanage::yum {'drbd9':
-        baseurl => $yumrepo_url,
+    case $::osfamily {
+      'Debian': {
+        drbdmanage::apt {'drbd9': }
+        package { [
+          'drbd-utils',
+          'python-drbdmanage',
+          'drbd-dkms',]:
+        ensure => present,
+        }
       }
-      package { [
-        'drbd',
-        'kmod-drbd',]:
-      ensure => present,
+      'RedHat': {
+        drbdmanage::yum {'drbd9':
+          baseurl => $yumrepo_url,
+        }
+        package { [
+          'drbd',
+          'kmod-drbd',]:
+        ensure => present,
+        }
       }
     }
   }
-
   physical_volume { $physical_volume:
     ensure => present,
   }
