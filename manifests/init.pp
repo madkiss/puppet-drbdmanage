@@ -42,7 +42,9 @@ class drbdmanage(
 ) inherits drbdmanage::params {
 
   include lvm
-  include drbdmanage::role::master
+  if $master_node {
+    include drbdmanage::role::master
+  }
 
 ## Install DRBD9 and dependencies
 
