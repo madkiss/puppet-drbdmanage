@@ -39,6 +39,7 @@ class drbdmanage(
   $physical_volume = $drbdmanage::params::physical_volume,
   $vg_name = $drbdmanage::params::vg_name,
   $yumrepo_url = $drbdmanage::params::yumrepo_url,
+  $yumrepo_hash = $drbdmanage::params::yumrepo_hash,
 ) inherits drbdmanage::params {
 
   include lvm
@@ -62,6 +63,7 @@ class drbdmanage(
       'RedHat': {
         drbdmanage::yum {'drbd9':
           baseurl => $yumrepo_url,
+          hash    => $yumrepo_hash,
         }
         package { [
           'drbd',
