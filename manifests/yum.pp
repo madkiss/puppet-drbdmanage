@@ -31,18 +31,18 @@ define drbdmanage::yum (
       content => template('registration.json.erb'),
       owner   => root,
       group   => root,
-      before  => Yumrepo['drbd9'],
-    }
+      before  => Yumrepo['drbd9'];
     '/usr/share/yum-plugins/linbit.py':
       ensure  => present,
       source  => 'puppet:///linbit.py',
       owner   => root,
       group   => root,
-      before  => Yumrepo['drbd9'],
+      before  => Yumrepo['drbd9'];
     '/etc/yum/pluginconf.d/linbit.conf':
       ensure  => present,
       source  => 'puppet:///linbit.conf',
       owner   => root,
       group   => root,
-      before  => Yumrepo['drbd9'],
+      before  => Yumrepo['drbd9'];
+  }
 }
