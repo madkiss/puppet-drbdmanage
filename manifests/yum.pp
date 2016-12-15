@@ -15,13 +15,13 @@
 #   Author: Sophia Katzy <sophia.katzy@gmail.com>
 
 define drbdmanage::yum (
-  $baseurl,
+  $url,
   $hash,
 ){
   yumrepo { 'drbd9':
     descr    => 'LINBIT Packages for drbd-9.0 - $basearch',
     name     => 'linbit',
-    baseurl  => absent,
+    baseurl  => $url,
     enabled  => 1,
     gpgkey   => 'https://packages.linbit.com/package-signing-pubkey.asc',
     gpgcheck => 1,

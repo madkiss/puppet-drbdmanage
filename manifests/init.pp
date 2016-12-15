@@ -62,8 +62,8 @@ class drbdmanage(
       }
       'RedHat': {
         drbdmanage::yum {'drbd9':
-          baseurl => $yumrepo_url,
-          hash    => $yumrepo_hash,
+          url  => $yumrepo_url,
+          hash => $yumrepo_hash,
         }
         package { [
           'drbd',
