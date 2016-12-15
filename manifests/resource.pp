@@ -22,20 +22,10 @@ define drbdmanage::resource (
 
   $resource_array = split($resources, ':')
   $resource_name = $resource_array[0]
-  #  $fact_name = getvar("${ressource_name}_join")
 
   exec { "add_resource_$resource_name":
     path    => "/sbin:/bin:/usr/sbin:/usr/bin",
-    command => "drbdmanage add_volume $resource_name $size --deploy 2",
+    command => "drbdmanage add-volume $resource_name $size --deploy 2",
     #    unless  => "drbdmanage resources -m | grep $resource_name",
-  }
-
-  if $fact_name {
-    @@exec { "join_$resource_name":
-      path    => "/sbin:/bin:/usr/sbin:/usr/bin",
-      command => "$fact_name -q",
-      unless  => "drbdmanage resources -m | grep $ressource_name",
-      tag     => "$ressource_name",
-    }
   }
 }
