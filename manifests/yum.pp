@@ -19,8 +19,8 @@ define drbdmanage::yum (
   $hash,
 ){
   yumrepo { 'drbd9':
-    name     => 'LINBIT Packages for drbd-9.0 - $basearch',
-    target   => '/etc/yum.repos.d/linbit.repo',
+    descr    => 'LINBIT Packages for drbd-9.0 - $basearch',
+    name     => '/etc/yum.repos.d/linbit.repo',
     baseurl  => absent,
     enabled  => 1,
     gpgkey   => 'https://packages.linbit.com/package-signing-pubkey.asc',
