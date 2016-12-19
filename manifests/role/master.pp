@@ -38,10 +38,10 @@ class drbdmanage::role::master(
 ## Create the drbdmanaged master instance
   require drbdmanage
 
-  exec { "drbd-init":
-    path    => "/sbin:/usr/bin:/usr/sbin:/bin",
-    command => "drbdmanage init --quiet $master_ip",
-    unless  => "drbdmanage nodes -m | grep $::hostname",
+  exec { 'drbd-init':
+    path    => '/sbin:/usr/bin:/usr/sbin:/bin',
+    command => "drbdmanage init --quiet ${master_ip}",
+    unless  => "drbdmanage nodes -m | grep ${::hostname}",
   }
 
   drbdmanage::addtocluster { $cluster_nodes: }

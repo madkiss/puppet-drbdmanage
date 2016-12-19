@@ -35,16 +35,16 @@ define drbdmanage::yum (
       group   => root,
       before  => Yumrepo['drbd9'];
     '/usr/share/yum-plugins/linbit.py':
-      ensure  => present,
-      source  => 'puppet:///modules/drbdmanage/linbit.py',
-      owner   => root,
-      group   => root,
-      before  => Yumrepo['drbd9'];
+      ensure => present,
+      source => 'puppet:///modules/drbdmanage/linbit.py',
+      owner  => root,
+      group  => root,
+      before => Yumrepo['drbd9'];
     '/etc/yum/pluginconf.d/linbit.conf':
-      ensure  => present,
-      source  => 'puppet:///modules/drbdmanage/linbit.conf',
-      owner   => root,
-      group   => root,
-      before  => Yumrepo['drbd9'];
+      ensure => present,
+      source => 'puppet:///modules/drbdmanage/linbit.conf',
+      owner  => root,
+      group  => root,
+      before => Yumrepo['drbd9'];
   }
 }

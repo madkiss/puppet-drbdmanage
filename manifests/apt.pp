@@ -17,13 +17,13 @@
 define drbdmanage::apt (
 ) {
   apt::key { 'drbd9':
-    key => '781F830A6697E8C5',
+    key        => '781F830A6697E8C5',
     key_server => 'keyserver.ubuntu.com',
   }
 
   apt::source { 'drbd9':
-    location => "http://ppa.launchpad.net/martin-loschwitz/drbd9-ppa/ubuntu",
-    release => $::lsbdistcodename,
-    require => Apt::Key['drbd9'],
+    location => 'http://ppa.launchpad.net/martin-loschwitz/drbd9-ppa/ubuntu',
+    release  => $::lsbdistcodename,
+    require  => Apt::Key['drbd9'],
   }
 }

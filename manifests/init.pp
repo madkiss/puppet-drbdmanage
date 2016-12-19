@@ -56,7 +56,7 @@ class drbdmanage(
           'drbd-utils',
           'python-drbdmanage',
           'drbd-dkms',]:
-        ensure => present,
+        ensure  => present,
         require => Drbdmanage::Apt['drbd9'],
         }
       }
@@ -68,7 +68,7 @@ class drbdmanage(
         package { [
           'drbd',
           'kmod-drbd',]:
-        ensure => present,
+        ensure  => present,
         require => Drbdmanage::Yum['drbd9'],
         }
       }

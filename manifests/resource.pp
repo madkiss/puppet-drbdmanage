@@ -23,9 +23,9 @@ define drbdmanage::resource (
   $resource_array = split($resources, ':')
   $resource_name = $resource_array[0]
 
-  exec { "add_resource_$resource_name":
-    path    => "/sbin:/bin:/usr/sbin:/usr/bin",
-    command => "drbdmanage add-volume $resource_name $size --deploy 2",
+  exec { "add_resource_${resource_name}":
+    path    => '/sbin:/bin:/usr/sbin:/usr/bin',
+    command => "drbdmanage add-volume ${resource_name} ${size} --deploy 2",
     #    unless  => "drbdmanage resources -m | grep $resource_name",
   }
 }

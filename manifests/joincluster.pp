@@ -20,5 +20,5 @@ define drbdmanage::joincluster(
 
   include drbdmanage
 
-  Exec <<| tag == "$name" |>> { }
+  Exec <<| tag == $name |>> { }
 }
