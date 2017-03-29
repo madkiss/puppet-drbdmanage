@@ -38,33 +38,42 @@ class drbdmanage(
   $install_repositories = $drbdmanage::params::install_repositories,
   $physical_volume = $drbdmanage::params::physical_volume,
   $vg_name = $drbdmanage::params::vg_name,
+  $yumrepo_url = $drbdmanage::params::yumrepo_url,
+  $yumrepo_hash = $drbdmanage::params::yumrepo_hash,
 ) inherits drbdmanage::params {
 
   include lvm
+  if $master_node {
+    include drbdmanage::role::master
+  }
 
-## Install DRBD9 and dependencies
-
-  case $::osfamily {
-    'Debian': {
-      if $install_repositories == 'true' {
+  if $install_repositories {
+  ## Install DRBD9 and dependencies
+    case $::osfamily {
+      'Debian': {
         drbdmanage::apt {'drbd9': }
+        package { [
+          'drbd-utils',
+          'python-drbdmanage',
+          'drbd-dkms',]:
+        ensure  => present,
+        require => Drbdmanage::Apt['drbd9'],
+        }
       }
-      $check_cmd = '/usr/bin/dpkg -l | grep drbd9-dkms'
+      'RedHat': {
+        drbdmanage::yum {'drbd9':
+          url  => $yumrepo_url,
+          hash => $yumrepo_hash,
+        }
+        package { [
+          'drbd',
+          'kmod-drbd',]:
+        ensure  => present,
+        require => Drbdmanage::Yum['drbd9'],
+        }
+      }
     }
   }
-
-  package {'drbd-utils':
-    ensure => present,
-  }
-
-  package {'python-drbdmanage':
-    ensure => present,
-  }
-
-  package {'drbd-dkms':
-    ensure => present,
-  }
-
   physical_volume { $physical_volume:
     ensure => present,
   }

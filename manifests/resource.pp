@@ -8,22 +8,24 @@
 #
 #   Unless required by applicable law or agreed to in writing, software
 #   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+#   implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
 #   Author: Martin Loschwitz <m.loschwitz@syseleven.de>
 
-define drbdmanage::apt (
-) {
-  apt::key { 'drbd9':
-    key        => '781F830A6697E8C5',
-    key_server => 'keyserver.ubuntu.com',
-  }
+define drbdmanage::resource (
+  $size,
+){
+  $resources = $name
 
-  apt::source { 'drbd9':
-    location => 'http://ppa.launchpad.net/martin-loschwitz/drbd9-ppa/ubuntu',
-    release  => $::lsbdistcodename,
-    require  => Apt::Key['drbd9'],
+  $resource_array = split($resources, ':')
+  $resource_name = $resource_array[0]
+
+  exec { "add_resource_${resource_name}":
+    path    => '/sbin:/bin:/usr/sbin:/usr/bin',
+    command => "drbdmanage add-volume ${resource_name} ${size} --deploy 2",
+    #    unless  => "drbdmanage resources -m | grep $resource_name",
   }
 }

@@ -17,7 +17,6 @@
 class drbdmanage::role::cluster_node(
 ) inherits drbdmanage::params {
 
-  drbdmanage::joincluster { $hostname:
-    require => [ Package['python-drbdmanage'], Package['drbd-dkms'], Package['drbd-utils'], ]
-  }
+  drbdmanage::joincluster { $hostname: }
+
 }

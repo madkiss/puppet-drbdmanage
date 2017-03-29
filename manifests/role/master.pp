@@ -36,13 +36,14 @@ class drbdmanage::role::master(
 ) inherits drbdmanage::params {
 
 ## Create the drbdmanaged master instance
+  require drbdmanage
 
-  exec { "drbd-init":
-    path    => "/sbin:/usr/bin:/usr/sbin:/bin",
-    command => "drbdmanage init --quiet $master_ip",
-    unless  => "drbdmanage nodes -m | grep $::hostname",
-    require => [ Package['python-drbdmanage'], Package['drbd-dkms'], Package['drbd-utils'], ]
+  exec { 'drbd-init':
+    path    => '/sbin:/usr/bin:/usr/sbin:/bin',
+    command => "drbdmanage init --quiet ${master_ip}",
+    unless  => "drbdmanage nodes -m | grep ${::hostname}",
   }
 
   drbdmanage::addtocluster { $cluster_nodes: }
+  create_resources ('drbdmanage::resource', hiera_hash('drbdmanage::params::resources'))
 }

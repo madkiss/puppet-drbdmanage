@@ -15,9 +15,7 @@
 #
 #   Author: Martin Loschwitz <m.loschwitz@syseleven.de>
 
-define drbdmanage::addtocluster(
-) {
-
+define drbdmanage::addtocluster {
   $nodes = $name
 
   $node_array = split($nodes, ':')
@@ -25,20 +23,18 @@ define drbdmanage::addtocluster(
   $node_ip = $node_array[1]
   $fact_name = getvar("${node_name}_join")
 
-  exec { "add_$node_name":
-    path    => "/sbin:/bin:/usr/sbin:/usr/bin",
-    command => "drbdmanage new-node $node_name $node_ip",
-    unless  => "drbdmanage nodes -m | grep $node_name",
-    require => [ Package['python-drbdmanage'], Package['drbd-dkms'], Package['drbd-utils'], Exec['drbd-init'], ],
+    exec { "add_${node_name}":
+    path    => '/sbin:/bin:/usr/sbin:/usr/bin',
+    command => "drbdmanage new-node ${node_name} ${node_ip}",
+    unless  => "drbdmanage nodes -m | grep ${node_name}",
   }
 
   if $fact_name {
-    @@exec { "join_$node_name":
-      path    => "/sbin:/bin:/usr/sbin:/usr/bin",
-      command => "$fact_name -q",
-      unless  => "drbdmanage nodes -m | grep $node_name",
-      require => [ Package['python-drbdmanage'], Package['drbd-dkms'], Package['drbd-utils'], ],
-      tag     => "$node_name",
+    @@exec { "join_${node_name}":
+      path    => '/sbin:/bin:/usr/sbin:/usr/bin',
+      command => "${fact_name} -q",
+      unless  => "drbdmanage nodes -m | grep ${node_name}",
+      tag     => $node_name,
     }
   }
 }
